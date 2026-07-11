@@ -15,6 +15,11 @@ If you are developing a new component, **check below** to see if an active branc
     *   **Purpose:** The core brain of WikiGem. Calculates Creator Quality (Trust Score) via comment sentiment and peer endorsement, and Tip Quality (Congruence Score) via research and cross-referencing.
     *   **Action:** If you are working on LLM logic for comparing tips or calculating trust, checkout this branch!
 
+*   **`feature/data-source-discovery`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Building the system to crawl YouTube/IG and identify new, low-follower creators who are outputting unique and verified tips.
+    *   **Action:** If you are working on discovery logic, checkout this branch!
+
 *   **`feature/instagram-reels-scraper`**
     *   **Status:** 🚧 In Progress
     *   **Purpose:** Building the pipeline to scrape Instagram Reels from fitness creators using Apify and transcribe them using Whisper. Also contains the initial foundational SQLite database schema (`Creator`, `Video`, `Tip`).
