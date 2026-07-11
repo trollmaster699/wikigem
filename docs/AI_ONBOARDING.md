@@ -9,6 +9,10 @@ WikiGem is an AI-driven biomechanics and physical therapy aggregator.
 
 **The "Slop In, Slop Out" Problem:** We assume AI vision models are terrible at extracting 3D nuance from 2D Instagram reels (lens distortion, baggy clothing). Therefore, we do NOT trust the AI's extraction as the final truth. The ultimate source of truth is the **User's Proprioception** (where they actually felt the muscle working).
 
+**Anti-Hallucination Architecture (The Critic Agent):** The primary generation LLM is NEVER allowed to output directly to the user. All outputs must pass through an invisible "Critic Agent" whose sole job is to cross-reference the output against the retrieved consensus and research vectors. If the Critic detects a hallucination, it kills the output and triggers a re-query.
+
+**Grounding to Truth (Strict Provenance):** Every single recommendation presented to the user MUST have a `source_id` explicitly tied to a verified video or research paper. If the engine cannot attach a `source_id` to a concept, it is strictly programmed to say: "I don't have enough consensus data on this," rather than attempting to guess.
+
 ## 2. Core Architecture & Engines
 
 ### A. The Consensus Engine
