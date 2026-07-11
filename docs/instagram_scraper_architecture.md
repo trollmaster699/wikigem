@@ -32,6 +32,14 @@ We will build a Python-based application to scrape Instagram reels from specific
 * `category`: String (More granular category inspired by the video category, e.g., 'setup', 'execution', 'common mistake')
 * `body_area`: String (The specific body part being worked on, e.g., 'lower back', 'shoulders')
 * `target_muscles`: String/List (The list of muscles, e.g., 'gluteus maximus', 'hamstrings')
+* `start_timestamp`: Float (The start time in seconds of the video where the tip is demonstrated)
+* `end_timestamp`: Float (The end time in seconds)
+
+## Video Extraction Pipeline
+Once the video is scraped via Apify, we will use a multi-modal pipeline to generate insights:
+1. **Audio Transcription:** We will run the video through Whisper (or an equivalent API) to generate a transcript with word-level or segment-level timestamps.
+2. **Cue Identification:** We pass the transcript to an LLM to identify when specific cues are given (e.g., "At 0:15, they discuss the deadlift setup").
+3. **Visual Insight Extraction (Gemini 1.5 Pro):** We will use the timestamps to identify key segments of the video, and send those segments to Gemini 1.5 Pro natively to extract the exact biomechanical insight (e.g., "Knees are caving"). If deeper kinematic data is required later, we can pivot to MediaPipe, but Gemini provides semantic meaning effortlessly.
 
 ## Proposed Changes
 ### Backend / Scraping Pipeline

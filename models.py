@@ -58,5 +58,7 @@ class Tip(Base):
     category = Column(String)
     body_area = Column(String)
     target_muscles = Column(String)
+    start_timestamp = Column(Float)
+    end_timestamp = Column(Float)
     
     video = relationship("Video", back_populates="tips")
