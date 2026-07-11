@@ -10,10 +10,25 @@ If you are developing a new component, **check below** to see if an active branc
 
 ### Current Active Branches
 
+*   **`feature/ai-tip-extraction`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Implementing the multimodal pipeline using Gemini to parse raw video/audio into structured tips.
+    *   **Action:** If you are working on the Gemini API extraction logic, checkout this branch!
+
+*   **`feature/vector-db-integration`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Integrating ChromaDB for semantic search of tips and Retrieval-Augmented Generation (RAG) for research papers.
+    *   **Action:** If you are working on generating embeddings or clustering similar tips, checkout this branch!
+
 *   **`feature/consensus-engine`**
     *   **Status:** 🚧 In Progress
     *   **Purpose:** The core brain of WikiGem. Calculates Creator Quality (Trust Score) via comment sentiment and peer endorsement, and Tip Quality (Congruence Score) via research and cross-referencing.
     *   **Action:** If you are working on LLM logic for comparing tips or calculating trust, checkout this branch!
+
+*   **`feature/data-source-discovery`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Building the system to crawl YouTube/IG and identify new, low-follower creators who are outputting unique and verified tips.
+    *   **Action:** If you are working on discovery logic, checkout this branch!
 
 *   **`feature/instagram-reels-scraper`**
     *   **Status:** 🚧 In Progress
