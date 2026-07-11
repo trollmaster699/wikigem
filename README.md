@@ -55,3 +55,4 @@ Once a branch is merged into `main`, its documentation will also become availabl
 1.  Check the "Current Active Branches" list above.
 2.  Checkout an existing branch or create a new one from `main` (e.g., `git checkout -b feature/your-feature-name`).
 3.  Ensure you document major architectural decisions in the `docs/` folder of your branch.
+- `feature/diagnostic-ui`: Manages the frontend logic for MediaPose form verification and the 3D Body Map proprioception UI.
