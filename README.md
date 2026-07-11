@@ -10,6 +10,11 @@ If you are developing a new component, **check below** to see if an active branc
 
 ### Current Active Branches
 
+*   **`feature/ai-tip-extraction`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Implementing the multimodal pipeline using Gemini to parse raw video/audio into structured tips.
+    *   **Action:** If you are working on the Gemini API extraction logic, checkout this branch!
+
 *   **`feature/vector-db-integration`**
     *   **Status:** 🚧 In Progress
     *   **Purpose:** Integrating ChromaDB for semantic search of tips and Retrieval-Augmented Generation (RAG) for research papers.
