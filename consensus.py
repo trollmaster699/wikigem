@@ -191,3 +191,41 @@ class ConsensusEngine:
             "global_success_rate": round(global_success_rate, 1),
             "failure_trends": failure_trends
         }
+
+class DiagnosticDecodingEngine:
+    """
+    The Diagnostic Decoding Engine actively attempts to "cure" identified failure trends.
+    It correlates a detected issue (e.g., "Long Femurs failing squats") with potential 
+    solutions (e.g., Activation exercises or specific Tips) and tracks their success rate.
+    """
+    def __init__(self, db_session, vector_store):
+        self.db = db_session
+        self.vector_store = vector_store
+
+    def hypothesize_cure(self, tip_id: int, failure_trend_condition: str) -> Dict[str, any]:
+        """
+        When a failure trend is detected for a specific tip, the engine looks for:
+        1. Previously successful activation exercises for this demographic.
+        2. Semantically linked tips from other creators that specifically mention the condition.
+        """
+        logger.info(f"Decoding cure for Tip {tip_id} due to {failure_trend_condition}")
+        
+        # 1. Check if an activation exercise historically resolved this for other tips
+        suggested_activation_id = self._find_historical_activation_cure(failure_trend_condition)
+        
+        # 2. Query ChromaDB for tips that specifically mention the failure condition
+        semantic_tip_cures = self._query_semantic_cures(tip_id, failure_trend_condition)
+        
+        return {
+            "target_failure_condition": failure_trend_condition,
+            "prescribed_activation_id": suggested_activation_id,
+            "suggested_semantic_cures": semantic_tip_cures
+        }
+
+    def _find_historical_activation_cure(self, condition: str) -> int:
+        # Placeholder: Query database for activation exercises that improved success rates for this condition
+        return 101 # Dummy ID for "Glute Bridge" or "Ankle Mobilization"
+
+    def _query_semantic_cures(self, tip_id: int, condition: str) -> List[int]:
+        # Placeholder: Query ChromaDB for tips close to tip_id but that explicitly contain the condition string
+        return [205, 308] # Dummy Tip IDs (e.g., "Elevate your heels if you have long femurs")
