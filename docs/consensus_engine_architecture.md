@@ -14,5 +14,6 @@ To determine if a creator is a reliable source of information, we aggregate sign
 
 ### 2. Consensus on Tip Quality (The "Congruence Score")
 To determine if a specific biomechanical tip is factually sound:
-*   **Cross-Referencing (The Echo Chamber):** If multiple different high-trust creators all give the exact same tip (e.g., "drive your knees out on a squat"), the system flags this tip as "High Congruence / Foundational Truth".
-*   **Research Paper Congruence:** We query the core concepts of a tip against actual biomechanical research. If a tip contradicts established research, it gets a "Disputed" or "Low Quality" flag.
+*   **Semantic Matching (ChromaDB):** Tips are embedded as mathematical vectors and stored in a local **ChromaDB**. This allows the engine to instantly cluster tips that are semantically identical (e.g. "push knees out" vs "drive knees outward") even if the words are different.
+*   **Cross-Referencing (The Echo Chamber):** If multiple different high-trust creators all give the exact same tip, the system flags this tip cluster as "High Congruence / Foundational Truth".
+*   **Research Paper Congruence (RAG):** We query the core concepts of a tip against actual biomechanical research stored in our Vector DB. If a tip contradicts established research, it gets a "Disputed" or "Low Quality" flag.

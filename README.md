@@ -10,6 +10,11 @@ If you are developing a new component, **check below** to see if an active branc
 
 ### Current Active Branches
 
+*   **`feature/vector-db-integration`**
+    *   **Status:** 🚧 In Progress
+    *   **Purpose:** Integrating ChromaDB for semantic search of tips and Retrieval-Augmented Generation (RAG) for research papers.
+    *   **Action:** If you are working on generating embeddings or clustering similar tips, checkout this branch!
+
 *   **`feature/consensus-engine`**
     *   **Status:** 🚧 In Progress
     *   **Purpose:** The core brain of WikiGem. Calculates Creator Quality (Trust Score) via comment sentiment and peer endorsement, and Tip Quality (Congruence Score) via research and cross-referencing.
