@@ -18,4 +18,7 @@ To determine if a specific biomechanical tip is factually sound:
 *   **Semantic Matching (ChromaDB):** Tips are embedded as mathematical vectors to cluster semantically identical advice.
 *   **Cross-Referencing (The Echo Chamber):** If multiple high-trust creators give the exact same tip, it is flagged as "High Congruence / Foundational Truth".
 *   **Research Paper Congruence (RAG):** We query the core concepts against biomechanical research in our Vector DB.
-*   **The Evergreen Data Loop (Proprioception):** The ultimate source of truth is the user. Via a 3D body map in the UI, users report where they felt the exercise (muscle activation vs. joint pain). The system cross-references this against the *expected* muscle activation predicted during the tip extraction. This objective feedback continuously updates the tip's Congruence Score.
+*   **The Evergreen Data Loop (Form Verification & Activation):** The ultimate source of truth is the user. Via a 3D body map in the UI, users report where they felt the exercise (muscle activation vs. joint pain). To prevent unfairly penalizing a good tip due to bad user form:
+    1. **MediaPose Verification:** The frontend UI uses MediaPose to ensure the user actually followed the tip.
+    2. **Activation Exercises:** If form is correct but the target muscle wasn't felt, the system prescribes a specific *activation exercise* (e.g., glute bridges). 
+    3. **Tip Downgrade:** A tip's Congruence Score is only penalized if form was perfect, activation was done, and it *still* failed. If an exercise consistently requires an activation set to work, the system links them in the database to always serve the activation exercise first.
