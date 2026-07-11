@@ -9,7 +9,7 @@ The engine operates on two primary axes: **Creator Quality** and **Tip Quality**
 ### 1. Consensus on Creator Quality (The "Trust Score")
 To determine if a creator is a reliable source of information, we aggregate signals from multiple vectors:
 *   **Peer Referencing (The Endorsement Graph):** We track which "Top Tier" (highly trusted) creators follow, mention, or collaborate with the creator. High endorsement equals high trust.
-*   **Audience Sentiment (YouTube/IG Comments):** We scrape the comments of their videos and use an LLM for sentiment analysis to detect if the community generally agrees, or if there is heavy pushback (e.g., people complaining about getting injured).
+*   **Audience Sentiment (YouTube/IG Comments):** We will scrape the comments of individual videos to run sentiment analysis on specific *tips*. This tells us if the community generally agrees or if there is pushback for a specific exercise (e.g., people complaining about getting injured). Furthermore, comments on individual videos often act as a vector for **Data Source Discovery**, because users frequently mention other creators or videos that provide better alternatives. We can scrape these mentions to find new creators to add to the system.
 *   **The "Diamond in the Rough" Discovery:** If the system detects a new, low-follower creator outputting highly unique tips that the engine verifies as *correct* (via research congruence), their trust score will rapidly inflate, and they will be automatically added to the high-priority scraping list.
 
 ### 2. Consensus on Tip Quality (The "Congruence Score")
