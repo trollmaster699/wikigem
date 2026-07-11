@@ -75,52 +75,107 @@ class ConsensusEngine:
 
     # --- Private Helper Methods ---
 
-    def _get_endorsement_score(self, creator_id: int) -> float:
-        # Placeholder: Query graph DB/SQLite for incoming edges from high-trust peers
-        return 80.0
-
-    def _get_comment_sentiment_score(self, creator_id: int) -> float:
-        # Placeholder: Query LLM sentiment results of deterministically filtered comments
-        return 75.0
-
-    def _get_semantic_echo_score(self, tip_id: int) -> float:
-        # Placeholder: Query ChromaDB for semantically similar tips
-        return 90.0
-
-    def _check_research_congruence(self, tip_id: int) -> float:
-        # Placeholder: Query RAG pipeline against biomechanics PDFs
-        return 85.0
-
-    def _get_proprioception_penalty(self, tip_id: int) -> float:
+    def _get_endorsement_score(self, creator_id: int, creator_data: Dict = None) -> float:
         """
-        The critical feedback loop:
-        Checks if users verified by MediaPose as having 'good form' reported pain
-        or failed muscle activation (even after activation exercises).
+        Calculates endorsement score based on the number and quality of incoming endorsements.
         """
-        # Placeholder: Query user_feedback table for failure rates
-        failure_rate = 0.05 # 5% of users with good form failed to activate
-        return failure_rate * 100 # Penalty is directly proportional to failure rate
+        if not creator_data:
+            return 50.0
+            
+        # Example logic: log-scale of highly trusted followers
+        high_trust_followers = creator_data.get('high_trust_follower_count', 0)
+        if high_trust_followers == 0:
+            return 0.0
+            
+        # Logarithmic scale so 100 high-trust followers is near max score
+        score = (math.log10(high_trust_followers + 1) / 2.0) * 100
+        return min(100.0, score)
 
-    def calculate_execution_difficulty(self, tip_id: int) -> Dict[str, any]:
+    def _get_comment_sentiment_score(self, creator_id: int, sentiment_data: Dict = None) -> float:
+        """
+        Calculates sentiment score from deterministically filtered comments.
+        """
+        if not sentiment_data:
+            return 50.0
+            
+        positive_mentions = sentiment_data.get('positive_clinical_mentions', 0)
+        negative_mentions = sentiment_data.get('negative_clinical_mentions', 0)
+        
+        total = positive_mentions + negative_mentions
+        if total == 0:
+            return 50.0 # Neutral baseline
+            
+        return (positive_mentions / total) * 100.0
+
+    def _get_semantic_echo_score(self, tip_id: int, chroma_results: List[Dict] = None) -> float:
+        """
+        Calculates how many high-trust creators are echoing this exact tip.
+        """
+        if not chroma_results:
+            return 50.0
+            
+        # Average the trust scores of the creators who echo this tip
+        total_trust = sum(result.get('creator_trust_score', 0) for result in chroma_results)
+        return total_trust / len(chroma_results) if chroma_results else 0.0
+
+    def _check_research_congruence(self, tip_id: int, rag_score: float = None) -> float:
+        """
+        Returns the RAG alignment score (0-100) based on PubMed/Semantic Scholar.
+        """
+        return rag_score if rag_score is not None else 50.0
+
+    def _get_proprioception_penalty(self, tip_id: int, feedback_data: Dict = None) -> float:
+        """
+        The critical feedback loop: Penalizes tips where form was perfect but 
+        the user still failed activation or experienced pain.
+        """
+        if not feedback_data:
+            return 0.0
+            
+        total_attempts = feedback_data.get('total_verified_attempts', 0)
+        pain_reports = feedback_data.get('pain_reports', 0)
+        activation_failures = feedback_data.get('activation_failures_after_prep', 0)
+        
+        if total_attempts == 0:
+            return 0.0
+            
+        failure_rate = (pain_reports + activation_failures) / total_attempts
+        
+        # Heavy penalty: A 20% failure rate drops the congruence score by 40 points.
+        penalty_multiplier = 200.0 
+        return min(100.0, failure_rate * penalty_multiplier)
+
+    def calculate_execution_difficulty(self, tip_id: int, execution_data: Dict = None) -> Dict[str, any]:
         """
         Calculates the global Execution Success Rate (%) for an exercise and 
         correlates failures with specific demographic or historical trends.
         """
         logger.info(f"Calculating Execution Difficulty for tip {tip_id}")
         
-        # 1. Global Success Rate
-        # Calculate % of users who successfully executed this tip (MediaPose pass + Muscle activation pass)
-        global_success_rate = 75.5 # Example: 75.5% success rate
+        if not execution_data:
+            return {"global_success_rate": 0.0, "failure_trends": []}
+            
+        total_attempts = execution_data.get('total_attempts', 0)
+        successful_attempts = execution_data.get('successful_attempts', 0)
         
-        # 2. Failure Trend Analysis
-        # Correlate failures with user history (e.g. past injuries documented in user profile)
-        # or caveats mentioned by the creator during AI tip extraction (e.g. "Requires good ankle mobility").
-        failure_trends = [
-            {"condition": "History of ankle sprains", "failure_rate": 82.0},
-            {"condition": "Poor shoulder mobility", "failure_rate": 65.0}
-        ]
+        global_success_rate = (successful_attempts / total_attempts * 100.0) if total_attempts > 0 else 0.0
+        
+        # Calculate failure trends dynamically based on user history metadata
+        failure_trends = []
+        history_categories = execution_data.get('failed_user_histories', {})
+        
+        for condition, fail_count in history_categories.items():
+            condition_total = execution_data.get('total_users_with_condition', {}).get(condition, 1)
+            condition_failure_rate = (fail_count / condition_total) * 100.0
+            
+            # Only flag statistically significant failure trends (> 60% failure rate)
+            if condition_failure_rate > 60.0:
+                failure_trends.append({
+                    "condition": condition,
+                    "failure_rate": round(condition_failure_rate, 1)
+                })
         
         return {
-            "global_success_rate": global_success_rate,
+            "global_success_rate": round(global_success_rate, 1),
             "failure_trends": failure_trends
         }
