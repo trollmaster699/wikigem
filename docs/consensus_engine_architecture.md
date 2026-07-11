@@ -22,3 +22,6 @@ To determine if a specific biomechanical tip is factually sound:
     1. **MediaPose Verification:** The frontend UI uses MediaPose to ensure the user actually followed the tip.
     2. **Activation Exercises:** If form is correct but the target muscle wasn't felt, the system prescribes a specific *activation exercise* (e.g., glute bridges). 
     3. **Tip Downgrade:** A tip's Congruence Score is only penalized if form was perfect, activation was done, and it *still* failed. If an exercise consistently requires an activation set to work, the system links them in the database to always serve the activation exercise first.
+    4. **Execution Difficulty (Success Rate):** We calculate the global % of users who can successfully execute the movement.
+    5. **Failure Trend Analysis:** We correlate failure rates with specific demographic/historical trends (e.g., "82% of users with prior ankle sprains fail this"). This data comes from user profiles and caveats parsed from the original video.
+    6. **Diagnostic Decoding Engine:** The system actively attempts to "cure" trends. If people with long femurs fail squats, the engine tests variables by prescribing activation exercises or finding specific creator tips that address this (e.g., "elevate heels"). It tracks which intervention successfully neutralizes the failure trend over time.
