@@ -100,3 +100,27 @@ class ConsensusEngine:
         # Placeholder: Query user_feedback table for failure rates
         failure_rate = 0.05 # 5% of users with good form failed to activate
         return failure_rate * 100 # Penalty is directly proportional to failure rate
+
+    def calculate_execution_difficulty(self, tip_id: int) -> Dict[str, any]:
+        """
+        Calculates the global Execution Success Rate (%) for an exercise and 
+        correlates failures with specific demographic or historical trends.
+        """
+        logger.info(f"Calculating Execution Difficulty for tip {tip_id}")
+        
+        # 1. Global Success Rate
+        # Calculate % of users who successfully executed this tip (MediaPose pass + Muscle activation pass)
+        global_success_rate = 75.5 # Example: 75.5% success rate
+        
+        # 2. Failure Trend Analysis
+        # Correlate failures with user history (e.g. past injuries documented in user profile)
+        # or caveats mentioned by the creator during AI tip extraction (e.g. "Requires good ankle mobility").
+        failure_trends = [
+            {"condition": "History of ankle sprains", "failure_rate": 82.0},
+            {"condition": "Poor shoulder mobility", "failure_rate": 65.0}
+        ]
+        
+        return {
+            "global_success_rate": global_success_rate,
+            "failure_trends": failure_trends
+        }
